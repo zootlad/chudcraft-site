@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Server</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            perspective: 2000px; /* Increased perspective for less dramatic effect */
+        }
+
+        /* [Previous navbar styles remain unchanged...] */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background-color: #1a1a1a;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: stretch;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            height: 74px;
+        }
+
+        .logo {
+            height: 50px;
+            margin: 12px 2rem;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .nav-links.left {
+            justify-content: start;
+        }
+
+        .nav-links.right {
+            justify-content: end;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: rgba(255, 253, 245, 0.3);
+        }
+
+        .nav-links.left a:first-child::before,
+        .nav-links.right a:first-child::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: rgba(255, 253, 245, 0.3);
+        }
+
+        .nav-links a:hover {
+            color: #9b4dca;
+            background-color: rgba(155, 77, 202, 0.1);
+        }
+
+        .main-content {
+            display: flex;
+            padding: 6rem;
+            min-height: calc(100vh - 200px);
+            background-color: #212121;
+            color: #e0e0e0;
+            position: relative;
+        }
+
+        .main-content::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 25%;
+            bottom: 25%;
+            width: 1px;
+            background-color: rgba(255, 253, 245, 0.3);
+        }
+
+        .left-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .creator {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        .download-btn {
+            background-color: transparent;
+            color: #e0e0e0;
+            padding: 1rem 2rem;
+            border: 1px solid rgba(255, 253, 245, 0.3);
+            border-radius: 999px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: fit-content;
+            font-weight: bold;
+        }
+
+        .download-btn:hover {
+            background-color: rgba(155, 77, 202, 0.1);
+            color: #9b4dca;
+            border-color: #9b4dca;
+        }
+
+        .featuring {
+            text-align: center;
+            padding: 1rem;
+            margin-top: -6rem;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            background-color: #212121;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mod-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(250px, 1fr)); /* Changed to 5 columns and made them slightly skinnier */
+            gap: 2rem;
+            padding-left: 12rem;
+            padding-right: 12rem;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            background-color: #212121;
+            position: relative;
+        }
+
+        .mod-grid::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 2rem;
+            right: 2rem;
+            height: 1px;
+            background-color: rgba(255, 253, 245, 0.3);
+        }
+
+        .mod-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            height: 300px;
+            width: 240px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+            outline: 2px solid rgba(155, 77, 202, 0.3); /* Added purple outline */
+        }
+
+        .mod-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+            transform: translateX(-100%);
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .mod-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .mod-image {
+            width: 150px; /* Made the images slightly thinner */
+            height: 150px; /* Made the images slightly thinner */
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid rgba(155, 77, 202, 0.3);
+            box-shadow: 0 0 15px rgba(155, 77, 202, 0.2);
+        }
+
+        .mod-name {
+            color: #e0e0e0;
+            font-size: 1.3rem;
+            text-align: center;
+            margin-top: auto;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.mod-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = -(y - centerY) / 25; // Reduced tilt factor from 15 to 25
+                    const rotateY = (x - centerX) / 25;  // Reduced tilt factor from 15 to 25
+                    
+                    requestAnimationFrame(() => {
+                        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'rotateX(0) rotateY(0)';
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links left">
+            <a href="#download">Download</a>
+            <a href="#about">About</a>
+        </div>
+        <a href="index.html">
+            <img src="./assets/logo.png" alt="Server Logo" class="logo">
+        </a>
+        <div class="nav-links right">
+            <a href="#store">Store</a>
+            <a href="#report">Report a Bug</a>
+        </div>
+    </nav>
+    <div class="main-content">
+        <div class="left-section">
+            <h1>Unemployment is just a click away!</h1>
+            <p class="creator">Made by zootlad</p>
+            <button class="download-btn">Download Modpack</button>
+        </div>
+        <div class="right-section">
+            <img src="./assets/server.png" alt="Minecraft Server Image">
+        </div>
+    </div>
+    <h2 class="featuring">Featuring...</h2>
+    <div class="mod-grid">
+        <div class="mod-card">
+            <img src="./assets/create.png" alt="Create Mod" class="mod-image">
+            <h3 class="mod-name">Create</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/iceandfire.png" alt="Ice & Fire Mod" class="mod-image">
+            <h3 class="mod-name">Ice & Fire</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/origins.png" alt="Origins Mod" class="mod-image">
+            <h3 class="mod-name">Origins</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/biomesoplenty.png" alt="Biomes o' Plenty Mod" class="mod-image">
+            <h3 class="mod-name">Biomes o' Plenty</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/ae2.png" alt="Applied Energistics 2 Mod" class="mod-image">
+            <h3 class="mod-name">Applied Energistics 2</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/deeperanddarker.png" alt="Deeper and Darker Mod" class="mod-image deeper-darker">
+            <h3 class="mod-name">Deeper and Darker</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/botania.png" alt="Botania Mod" class="mod-image">
+            <h3 class="mod-name">Botania</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/bumblezone.png" alt="The Bumblezone Mod" class="mod-image">
+            <h3 class="mod-name">The Bumblezone</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/arcadiandream.png" alt="Arcadian Dreams Mod" class="mod-image">
+            <h3 class="mod-name">Arcadian Dreams</h3>
+        </div>
+        <div class="mod-card">
+            <img src="./assets/adastra.png" alt="Ad Astra Mod" class="mod-image">
+            <h3 class="mod-name">Ad Astra</h3>
+        </div>
+    </div>
+</body>
+</html>
