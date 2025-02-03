@@ -11,10 +11,9 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
-            perspective: 2000px; /* Increased perspective for less dramatic effect */
+            perspective: 2000px;
         }
 
-        /* [Previous navbar styles remain unchanged...] */
         .navbar {
             position: sticky;
             top: 0;
@@ -151,12 +150,35 @@
             transition: all 0.2s ease;
             width: fit-content;
             font-weight: bold;
+            position: relative;
         }
 
         .download-btn:hover {
             background-color: rgba(155, 77, 202, 0.1);
             color: #9b4dca;
             border-color: #9b4dca;
+        }
+
+        .download-btn::after {
+            content: 'Version: 0.9 Pre-Release';
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #888;
+            white-space: nowrap;
+        }
+
+        .download-btn::before {
+            content: 'Last Updated: <value>';
+            position: absolute;
+            bottom: -3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #888;
+            white-space: nowrap;
         }
 
         .featuring {
@@ -172,7 +194,7 @@
 
         .mod-grid {
             display: grid;
-            grid-template-columns: repeat(5, minmax(250px, 1fr)); /* Changed to 5 columns and made them slightly skinnier */
+            grid-template-columns: repeat(5, minmax(250px, 1fr));
             gap: 2rem;
             padding-left: 12rem;
             padding-right: 12rem;
@@ -342,3 +364,8 @@
     </div>
 </body>
 </html>
+<footer style="white-space: nowrap; text-align: center; padding: 1em 0; background-color: #1a1a1a; color: #fff;">
+  <span>Hello CHUD!</span>
+  <span>&nbsp;|&nbsp;</span>
+  <span>Thanks for visitng!</span>
+</footer>
