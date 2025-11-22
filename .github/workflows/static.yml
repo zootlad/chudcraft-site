@@ -37,6 +37,9 @@ jobs:
         run: |
           npm ci
           npm run build
+          # Verify build output has correct paths
+          echo "Build complete. Checking paths in index.html..."
+          grep -o '/quotaclicker/static' chudcraft-site/build/index.html || echo "WARNING: Paths may be incorrect"
       
       - name: Prepare deployment files
         run: |
