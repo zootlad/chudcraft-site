@@ -1,6 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, TrendingUp, Zap, Crown, Award, Users, Rocket, BadgeCheck, Heart, Dumbbell, Target, AlertTriangle, Waves, Shield, FileText, Skull, MessageSquare, FlameKindling, Menu, X, Bell, Settings } from 'lucide-react';
 
+// Ranks array - constant outside component to avoid dependency issues
+const ranks = [
+  { name: "Private", quota: 0 },
+  { name: "Perma CPL", quota: 1000 },
+  { name: "SGT", quota: 5000 },
+  { name: "SGT of the Week", quota: 15000 },
+  { name: "SMB", quota: 50000 },
+  { name: "Officer", quota: 150000 },
+  { name: "Trial Mod", quota: 400000 },
+  { name: "Subcompany Commander", quota: 1000000 },
+  { name: "XO", quota: 2500000 },
+  { name: "Senior Moderator", quota: 6000000 },
+  { name: "Commander", quota: 15000000 },
+  { name: "Admin", quota: 40000000 },
+  { name: "Head Admin", quota: 100000000 },
+  { name: "DVL", quota: 250000000 },
+  { name: "Advisor (Groomer)", quota: 600000000 },
+  { name: "Director (Groomer)", quota: 1500000000 },
+  { name: "Teamspeak Moderator", quota: 4000000000 },
+  { name: "The Allegations", quota: 10000000000 },
+  { name: "Executive Order", quota: 25000000000 },
+  { name: "The Return", quota: 60000000000 },
+  { name: "RC Trainee", quota: 150000000000 },
+];
+
 export default function IcefuseClicker() {
   // Default upgrade structures with icons
   const defaultUpgrades = {
@@ -199,30 +224,6 @@ export default function IcefuseClicker() {
     bareChild: { name: "Bare Corvezeo's Child", desc: "Family expansion" },
     rickyBerwick: { name: "Leave for Ricky Berwick", desc: "The ultimate betrayal" },
   };
-
-  const ranks = [
-    { name: "Private", quota: 0 },
-    { name: "Perma CPL", quota: 1000 },
-    { name: "SGT", quota: 5000 },
-    { name: "SGT of the Week", quota: 15000 },
-    { name: "SMB", quota: 50000 },
-    { name: "Officer", quota: 150000 },
-    { name: "Trial Mod", quota: 400000 },
-    { name: "Subcompany Commander", quota: 1000000 },
-    { name: "XO", quota: 2500000 },
-    { name: "Senior Moderator", quota: 6000000 },
-    { name: "Commander", quota: 15000000 },
-    { name: "Admin", quota: 40000000 },
-    { name: "Head Admin", quota: 100000000 },
-    { name: "DVL", quota: 250000000 },
-    { name: "Advisor (Groomer)", quota: 600000000 },
-    { name: "Director (Groomer)", quota: 1500000000 },
-    { name: "Teamspeak Moderator", quota: 4000000000 },
-    { name: "The Allegations", quota: 10000000000 },
-    { name: "Executive Order", quota: 25000000000 },
-    { name: "The Return", quota: 60000000000 },
-    { name: "RC Trainee", quota: 150000000000 },
-  ];
 
   const [clickMultiplier, setClickMultiplier] = useState(savedState?.clickMultiplier ?? 1);
   const [qpsMultiplier, setQpsMultiplier] = useState(savedState?.qpsMultiplier ?? 1);
@@ -502,6 +503,9 @@ export default function IcefuseClicker() {
           gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
           oscillator.start(audioContext.currentTime);
           oscillator.stop(audioContext.currentTime + 0.15);
+          break;
+        default:
+          // No sound for unknown types
           break;
       }
     } catch (e) {
