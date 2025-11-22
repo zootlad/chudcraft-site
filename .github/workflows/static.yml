@@ -54,12 +54,19 @@ jobs:
           # Copy React build files to quotaclicker directory for proper routing
           mkdir -p quotaclicker
           cp -r chudcraft-site/build/* quotaclicker/
+          # Ensure .nojekyll exists in quotaclicker directory for GitHub Pages
+          touch quotaclicker/.nojekyll
           # Verify files were copied correctly
           echo "Verifying quotaclicker directory structure..."
           ls -la quotaclicker/ || echo "quotaclicker directory check failed"
+          echo "Checking JS files exist:"
           ls -la quotaclicker/static/js/ || echo "static/js directory check failed"
-          echo "First few lines of quotaclicker/index.html:"
-          head -n 1 quotaclicker/index.html || echo "index.html not found"
+          echo "Files in static/js:"
+          ls quotaclicker/static/js/ || echo "Cannot list JS files"
+          echo "Verifying main.js exists:"
+          test -f quotaclicker/static/js/main.b52fcc07.js && echo "main.b52fcc07.js found" || echo "main.b52fcc07.js NOT FOUND"
+          echo "Verifying chunk file exists:"
+          test -f quotaclicker/static/js/453.bbd4985c.chunk.js && echo "453.bbd4985c.chunk.js found" || echo "453.bbd4985c.chunk.js NOT FOUND"
       
       - name: Setup Pages
         uses: actions/configure-pages@v5
