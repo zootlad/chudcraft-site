@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, TrendingUp, Zap, Crown, Award, Users, Rocket, BadgeCheck, Heart, Dumbbell, Target, AlertTriangle, Waves, Shield, FileText, Skull, MessageSquare, FlameKindling, Menu, X, Bell } from 'lucide-react';
+import { Sparkles, TrendingUp, Zap, Crown, Award, Users, Rocket, BadgeCheck, Heart, Dumbbell, Target, AlertTriangle, Waves, Shield, FileText, Skull, MessageSquare, FlameKindling, Menu, X, Bell, Settings } from 'lucide-react';
 
 export default function IcefuseClicker() {
   // Default upgrade structures with icons
@@ -74,8 +74,8 @@ export default function IcefuseClicker() {
         };
 
         return {
-          quota: data.quota || 1000000000000,
-          corvcoin: data.corvcoin || 1000000000000,
+          quota: data.quota || 0,
+          corvcoin: data.corvcoin || 0,
           totalClicks: data.totalClicks || 0,
           totalQuotaEarned: data.totalQuotaEarned || 0,
           upgrades: mergeUpgrades(data.upgrades, defaultUpgrades),
@@ -123,8 +123,8 @@ export default function IcefuseClicker() {
 
   const savedState = loadGameState();
 
-  const [quota, setQuota] = useState(savedState?.quota ?? 1000000000000);
-  const [corvcoin, setCorvcoin] = useState(savedState?.corvcoin ?? 1000000000000);
+  const [quota, setQuota] = useState(savedState?.quota ?? 0);
+  const [corvcoin, setCorvcoin] = useState(savedState?.corvcoin ?? 0);
   const [quotaPerClick, setQuotaPerClick] = useState(1);
   const [quotaPerSecond, setQuotaPerSecond] = useState(0);
   const [corvDropChance, setCorvDropChance] = useState(1);
@@ -138,6 +138,9 @@ export default function IcefuseClicker() {
   const [storyOverlay, setStoryOverlay] = useState(null);
   const [rankUpNotification, setRankUpNotification] = useState(null);
   const [hasSeenNoticeCorv, setHasSeenNoticeCorv] = useState(false);
+  const [showWinScreen, setShowWinScreen] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const [upgrades, setUpgrades] = useState(savedState?.upgrades || defaultUpgrades);
   const [clickUpgrades, setClickUpgrades] = useState(savedState?.clickUpgrades || defaultClickUpgrades);
@@ -145,16 +148,16 @@ export default function IcefuseClicker() {
   const [storyUpgrades, setStoryUpgrades] = useState(savedState?.storyUpgrades || defaultStoryUpgrades);
 
   const storyTexts = {
-    noticeCorv: "It started with a stream. Late one night, scrolling through Twitch, you stumbled upon Corvezeo's channel. Their voice, their laugh, the way they interacted with chat—something clicked. You weren't just watching anymore. You were captivated. Hours turned into days, and days into weeks. Every stream became an event. You found yourself thinking about them even when they weren't live. This wasn't just a crush. This was something deeper, something that would change everything.",
-    corvNotices: "In the midst of your endless clicking, you catch a glimpse of someone watching from the shadows. Corvezeo notices your dedication, your relentless pursuit of quota. A spark of interest ignites in their eyes. The game has just begun.",
-    talkCorv: "You muster the courage to approach. Words flow awkwardly at first, but soon you find common ground. Corvezeo opens up about their own struggles, their own quests. A connection forms, fragile but real. This is more than just clicking now.",
-    flirtCorv: "The tension builds. Playful banter turns into something deeper. You find yourself thinking about them between clicks. Corvezeo seems to enjoy your company, your persistence. The line between game and reality begins to blur.",
-    kissCorv: "The moment arrives. In a quiet corner, away from the chaos of quota generation, you share your first kiss. Time seems to stop. Corvezeo pulls back with a smile. 'I've been waiting for that,' they whisper. Everything changes.",
-    dateCorv: "You plan the perfect date. Dinner, conversation, laughter. For a few hours, quota doesn't matter. Corvezeo opens up completely, sharing dreams and fears. You realize this is no longer just a game—this is real.",
-    commitCorv: "You make it official. Corvezeo moves in, and your life transforms. Mornings are shared coffee and planning. Evenings are spent together, building something that matters more than any quota. You've found your person.",
-    marryCorv: "The wedding is perfect. Surrounded by friends and family, you exchange vows. 'Till death do us part' takes on new meaning. Corvezeo is your partner, your best friend, your everything. The clicking continues, but now it's for us.",
-    bareChild: "A new chapter begins. Your child arrives, and everything shifts. Corvezeo is an amazing parent, and you find yourself clicking not just for quota, but for your family's future. Three hearts beat as one. Life is beautiful.",
-    rickyBerwick: "The unthinkable happens. After everything you built together, after the family you created, you leave. Ricky Berwick's call was too strong to resist. The betrayal cuts deep. Corvezeo is left behind, heartbroken, with a child to raise alone. You made your choice, and it will haunt you forever.",
+    noticeCorv: "It was 3am and you were scrolling through Twitch, half dead from grinding quota on Icefuse Networks. Then you found his stream. Corvezeo. The owner of the server youd been no lifing. His voice hit different. Deep, commanding, the kind that made you sit up straight. He was running Clone Wars RP, barking orders at his battalion, and you were HOOKED. You watched every stream after that. Started donating. Became a regular in chat. Youd stay up until sunrise just to hear him talk. Pathetic? Maybe. But you didnt care. You were down BAD for this man.",
+    corvNotices: "Youve been grinding quota like a maniac, hoping hed notice. And then it happened. Corvezeo actually looked at you in game. Like, REALLY looked. His character stopped mid command and stared. Youve been putting in work, he said. Your heart fucking EXPLODED. He noticed you. HE NOTICED YOU. This wasnt just some parasocial delusion anymore. This was real.",
+    talkCorv: "You finally worked up the nerve to DM him. Started with server questions, then it turned into actual conversations. Hed message you at random times, asking about your day. Youd talk about quota, about the server, about nothing and everything. He opened up about running Icefuse, the stress, the drama. You felt special. Like you were the only one he talked to like this. The parasocial pipeline was working its magic.",
+    flirtCorv: "The DMs got flirty. Real flirty. Hed send you screenshots of his character and ask what you thought. Youd tell him he looked good. Hed respond with good enough to make you click faster? and youd fucking MELT. The tension was UNREAL. Every message had you checking your phone like a crackhead. You were down astronomically bad and you didnt even care. He started pulling you into private channels on TeamSpeak. Red room, hed whisper. Just the two of you, voices only, late into the night. The things hed say youd replay them in your head for days.",
+    kissCorv: "You met up in game. Just the two of you, in some random corner of the map. No one else around. Come here, he said. You walked over. His character leaned in. Close your eyes. You did. And then it happened. Your first kiss. Even through a screen, through pixels and code, it felt real. Ive been wanting to do that, he whispered. You were FUCKED. Completely gone for this man. After that, he set his channel to DUE. Demotion Upon Entry. Privacy. Just for you. You felt special. Chosen.",
+    dateCorv: "You started dating in game. Hed take you on dates around the map, show you secret spots. Youd spend hours just talking, roleplaying, existing together in this digital space. Hed tell you about his plans for Icefuse, ask for your input. Made you feel like you mattered. Like you were part of something. The line between game and reality? GONE. This was your life now. Hed talk about removing SO and DU, about getting rid of Fuse, about protecting Canner despite the allegations. Youd nod along, not really understanding, just happy he was talking to you. Meanwhile ImperialRP and Clone Wars RP were dying. Rust was dead. Hed always neglected them. But you didnt care. You had him.",
+    commitCorv: "He asked you to move in with him. In game, obviously, but it felt real. You said yes immediately. Now youre grinding quota together, building something. Hes your person. Your everything. You wake up and the first thing you do is check if hes online. You go to sleep thinking about him. This is it. This is your life. The memory leak was getting worse but he wouldnt fix it. Ryu was gorging himself on food, eating everything in sight, getting fatter by the day. But you didnt care. You had him. Thats all that mattered.",
+    marryCorv: "He proposed. In game wedding, full ceremony, everyone from Icefuse showed up. You said I do without hesitation. Corvezeo is your husband now. Your partner. Your everything. The quota clicking continues, but now its for US. For your future together. Youre living the dream. The memory leak was still unfixed. Ryu crashed his car again, probably because he was too busy stuffing his face to pay attention. ImperialRP was dead. Clone Wars RP was dead. Rust was dead. But none of it mattered. You were married. To HIM. Nothing else existed.",
+    bareChild: "You wanted a kid. He wanted a kid. So you made one. The how was intense. Lets just say you both logged off for a few hours and when you came back, there was a baby character in your base. The details? Graphic. Visceral. You remember every second of it. The way he moved, the sounds, the way he held you after. Raw. Real. Messy. The kind of boinking that leaves you sore for days. But it wasnt just in game anymore. Youd meet up IRL. Hotels. His place. The back of his car. Hed fuck you raw, no condom, whispering about how you belonged to him, how you were his. Youd come home covered in bruises, his cum still dripping out of you, and youd smile. You were his. Completely. Now youre a family. Three of you, clicking quota, building your life on Icefuse. Its perfect. Hauntingly perfect.",
+    rickyBerwick: "You left him. For RICKY BERWICK. What the FUCK were you thinking? After everything. The streams, the DMs, the wedding, the KID, the IRL meetups, the way hed mark you as his, the way youd wake up with his handprints still on your thighs. You just left. Logged out, blocked him, moved on. Corvezeo is alone now. Raising your kid alone. Running Icefuse alone. The servers dying. The memory leak is unfixed. ImperialRP is dead. Clone Wars RP is dead. Rust is dead. But hes still there, still grinding, still trying. You see him in other peoples streams sometimes, still clicking quota, still running PT, still protecting Canner. But hes broken. Empty. A shell of who he was. And its your fault. You made your choice. You chose Ricky Berwick over the man who gave you everything. Over the man who made you feel alive. Now live with it. The guilt will eat you alive. Every click reminds you of what you threw away. Every notification makes you hope its him. But it never is. It never will be again.",
   };
 
   const upgradeInfo = {
@@ -405,6 +408,13 @@ export default function IcefuseClicker() {
       playSound('story');
       // Show story overlay
       setStoryOverlay(key);
+      
+      // Show win screen after rickyBerwick
+      if (key === 'rickyBerwick') {
+        setTimeout(() => {
+          setShowWinScreen(true);
+        }, 2000);
+      }
     } else {
       playSound('error');
     }
@@ -440,31 +450,32 @@ export default function IcefuseClicker() {
       
       switch(type) {
         case 'click':
-          // More satisfying click sound - quick pop with two tones
+          // Cookie Clicker style click - sharp, percussive, clicky
           const clickOsc1 = audioContext.createOscillator();
           const clickOsc2 = audioContext.createOscillator();
           const clickGain1 = audioContext.createGain();
           const clickGain2 = audioContext.createGain();
           
-          clickOsc1.frequency.value = 1200;
-          clickOsc1.type = 'sine';
-          clickOsc2.frequency.value = 800;
-          clickOsc2.type = 'sine';
+          clickOsc1.frequency.value = 1500;
+          clickOsc1.type = 'square';
+          clickOsc2.frequency.value = 2000;
+          clickOsc2.type = 'square';
           
           clickOsc1.connect(clickGain1);
           clickOsc2.connect(clickGain2);
           clickGain1.connect(audioContext.destination);
           clickGain2.connect(audioContext.destination);
           
-          clickGain1.gain.setValueAtTime(0.15, audioContext.currentTime);
-          clickGain1.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
-          clickGain2.gain.setValueAtTime(0.1, audioContext.currentTime);
-          clickGain2.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.08);
+          // Sharp attack, quick decay - very clicky
+          clickGain1.gain.setValueAtTime(0.2, audioContext.currentTime);
+          clickGain1.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.02);
+          clickGain2.gain.setValueAtTime(0.15, audioContext.currentTime + 0.01);
+          clickGain2.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.03);
           
           clickOsc1.start(audioContext.currentTime);
-          clickOsc1.stop(audioContext.currentTime + 0.05);
-          clickOsc2.start(audioContext.currentTime);
-          clickOsc2.stop(audioContext.currentTime + 0.08);
+          clickOsc1.stop(audioContext.currentTime + 0.02);
+          clickOsc2.start(audioContext.currentTime + 0.01);
+          clickOsc2.stop(audioContext.currentTime + 0.03);
           break;
         case 'purchase':
           oscillator.frequency.value = 600;
@@ -502,7 +513,7 @@ export default function IcefuseClicker() {
     <div className="h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white flex items-center justify-center p-2 sm:p-4 overflow-hidden">
       <div className="w-full h-full max-w-6xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="bg-slate-800/80 backdrop-blur rounded-t-2xl p-4 border-b border-blue-500/30 flex justify-between items-center">
+        <div className="bg-slate-800/80 backdrop-blur rounded-t-2xl p-4 border-b border-blue-500/30 flex items-center gap-4">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="relative p-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all"
@@ -512,18 +523,24 @@ export default function IcefuseClicker() {
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
             )}
           </button>
-          <div>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
               Quota Clicker
             </h1>
             <div className="text-xs text-yellow-400 font-bold">Rank: {currentRank}</div>
           </div>
+          <a 
+            href="./"
+            className="text-xs text-slate-400 hover:text-blue-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-slate-700/50"
+          >
+            Return to Website
+          </a>
         </div>
 
         {/* Main Content */}
         <div className="flex-1 bg-slate-800/50 backdrop-blur relative overflow-hidden">
           {/* Game View */}
-          <div className={`absolute inset-0 transition-transform duration-300 ${menuOpen ? '-translate-x-[70%]' : 'translate-x-0'}`}>
+          <div className="absolute inset-0">
             <div className="p-4 h-full flex flex-col justify-between">
               {/* Stats */}
               <div className="grid grid-cols-3 gap-2 mb-4">
@@ -553,9 +570,11 @@ export default function IcefuseClicker() {
                   }`}
                 >
                   <img 
-                    src="/icefuse.png" 
+                    src="./icefuse.png" 
                     alt="Icefuse Clicker"
-                    className="w-72 h-72 object-contain drift-animation hover:brightness-110 transition-all"
+                    className="w-72 h-72 object-contain drift-animation hover:brightness-110 transition-all select-none"
+                    draggable="false"
+                    onDragStart={(e) => e.preventDefault()}
                   />
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full mt-2 text-center">
                     <div className="text-lg font-bold text-green-400">+{quotaPerClick}</div>
@@ -571,12 +590,12 @@ export default function IcefuseClicker() {
             </div>
           </div>
 
-          {/* Menu View */}
-          <div className={`absolute inset-0 transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          {/* Menu View - slides over game */}
+          <div className={`absolute inset-0 z-40 transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
             {/* Dead space overlay - click to close */}
             {menuOpen && (
               <div 
-                className="absolute inset-0 -translate-x-[70%] cursor-pointer"
+                className="absolute inset-0 left-[70%] cursor-pointer bg-black/20"
                 onClick={() => setMenuOpen(false)}
               />
             )}
@@ -716,14 +735,15 @@ export default function IcefuseClicker() {
                     return (
                       <button
                         key={key}
-                        className="w-full text-left rounded-lg p-3 text-sm bg-pink-600/20 border-2 border-pink-500/50"
+                        onClick={() => setStoryOverlay(key)}
+                        className="w-full text-left rounded-lg p-3 text-sm bg-pink-600/20 border-2 border-pink-500/50 hover:bg-pink-600/30 transition-all cursor-pointer"
                       >
                         <div className="flex items-start gap-2">
                           <Icon className="w-5 h-5 mt-0.5 flex-shrink-0" />
                           <div className="flex-1 min-w-0">
                             <div className="font-bold text-sm">{info.name}</div>
                             <div className="text-xs text-slate-400">{info.desc}</div>
-                            <div className="text-xs text-green-400 mt-1">✓ Purchased • +{upgrade.qps * qpsMultiplier}/s</div>
+                            <div className="text-xs text-green-400 mt-1">✓ Purchased • +{upgrade.qps * qpsMultiplier}/s • Click to re-read</div>
                           </div>
                         </div>
                       </button>
@@ -838,8 +858,24 @@ export default function IcefuseClicker() {
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-800/80 backdrop-blur rounded-b-2xl p-2 border-t border-blue-500/30 text-center text-xs text-slate-400">
+        <div className="bg-slate-800/80 backdrop-blur rounded-b-2xl p-2 border-t border-blue-500/30 text-center text-xs text-slate-400 relative">
           Click to dominate • Menu for upgrades
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className="absolute bottom-2 right-2 p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-all"
+          >
+            <Settings className="w-5 h-5" />
+          </button>
+          {showSettings && (
+            <div className="absolute bottom-12 right-2 bg-slate-800 border-2 border-blue-500/50 rounded-lg p-3 shadow-2xl min-w-[200px]">
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className="w-full py-2 px-4 bg-red-600 hover:bg-red-500 rounded-lg text-sm font-bold transition-all"
+              >
+                Reset Progress
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -881,6 +917,86 @@ export default function IcefuseClicker() {
             </div>
             <div className="text-center text-sm text-slate-500 animate-pulse">
               Click anywhere to close
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Win Screen */}
+      {showWinScreen && (
+        <div 
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[60] flex items-center justify-center p-4 overflow-hidden"
+          onClick={() => setShowWinScreen(false)}
+        >
+          <div 
+            className="bg-gradient-to-br from-yellow-600/95 via-orange-600/95 to-red-600/95 backdrop-blur-md border-4 border-yellow-400 rounded-3xl p-12 max-w-3xl shadow-2xl cursor-pointer animate-pulse"
+            onClick={() => setShowWinScreen(false)}
+          >
+            <div className="text-center mb-8">
+              <Crown className="w-24 h-24 mx-auto mb-6 text-yellow-300 animate-bounce" />
+              <h1 className="text-6xl font-black bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent mb-4 drop-shadow-2xl">
+                YOU WON!
+              </h1>
+              <h2 className="text-3xl font-bold text-white mb-4">
+                🎉 CONGRATULATIONS! 🎉
+              </h2>
+              <div className="w-48 h-2 bg-gradient-to-r from-yellow-400 to-orange-400 mx-auto rounded-full mb-6"></div>
+              <p className="text-2xl text-yellow-100 font-bold mb-4">
+                You've completed the story!
+              </p>
+              <p className="text-xl text-yellow-200 mb-6">
+                You chose Ricky Berwick over Corvezeo.
+              </p>
+              <p className="text-lg text-yellow-100 italic">
+                The guilt will haunt you forever.
+              </p>
+              <p className="text-lg text-yellow-100 italic mt-4">
+                But hey, at least you won the game! 🏆
+              </p>
+            </div>
+            <div className="text-center text-yellow-200 animate-pulse text-lg font-semibold">
+              Click anywhere to continue clicking
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Progress Confirmation */}
+      {showResetConfirm && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4"
+          onClick={() => setShowResetConfirm(false)}
+        >
+          <div 
+            className="bg-slate-900 border-2 border-red-500/50 rounded-2xl p-8 max-w-md shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold text-white mb-4 text-center">
+              Are You Sure?
+            </h2>
+            <p className="text-slate-300 mb-6 text-center">
+              This will permanently delete all your progress. This cannot be undone.
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => {
+                  // Reset all state to defaults
+                  localStorage.removeItem('quotaClickerSave');
+                  window.location.reload();
+                }}
+                className="flex-1 py-3 px-6 bg-red-600 hover:bg-red-500 rounded-lg font-bold transition-all"
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  setShowResetConfirm(false);
+                  setShowSettings(false);
+                }}
+                className="flex-1 py-3 px-6 bg-slate-700 hover:bg-slate-600 rounded-lg font-bold transition-all"
+              >
+                No
+              </button>
             </div>
           </div>
         </div>

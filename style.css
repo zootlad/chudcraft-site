@@ -233,7 +233,7 @@ h1 {
 }
 
 .download-btn::after {
-    content: 'Version: Release 1.0';
+    content: 'Version: Release 2.0';
     position: absolute;
     bottom: -1.5rem;
     left: 50%;
