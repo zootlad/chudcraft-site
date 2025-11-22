@@ -54,6 +54,12 @@ jobs:
           # Copy React build files to quotaclicker directory for proper routing
           mkdir -p quotaclicker
           cp -r chudcraft-site/build/* quotaclicker/
+          # Verify files were copied correctly
+          echo "Verifying quotaclicker directory structure..."
+          ls -la quotaclicker/ || echo "quotaclicker directory check failed"
+          ls -la quotaclicker/static/js/ || echo "static/js directory check failed"
+          echo "First few lines of quotaclicker/index.html:"
+          head -n 1 quotaclicker/index.html || echo "index.html not found"
       
       - name: Setup Pages
         uses: actions/configure-pages@v5
