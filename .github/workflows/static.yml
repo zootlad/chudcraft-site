@@ -47,6 +47,10 @@ jobs:
           if [ ! -f CNAME ]; then
             echo "chudcraft.cc" > CNAME
           fi
+          
+          # Copy React build files to quotaclicker directory for proper routing
+          mkdir -p quotaclicker
+          cp -r chudcraft-site/build/* quotaclicker/
       
       - name: Setup Pages
         uses: actions/configure-pages@v5
