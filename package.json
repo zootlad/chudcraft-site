@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "npm --prefix chudcraft-site start",
+    "build": "npm --prefix chudcraft-site run build",
+    "test": "npm --prefix chudcraft-site test"
+  },
+  "dependencies": {
+    "lucide-react": "^0.554.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3"
+  }
+}

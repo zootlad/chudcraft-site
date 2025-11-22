@@ -6,16 +6,18 @@
     perspective: 2000px;
 }
 
+/* Updated navbar layout – 2 buttons left, logo center, 2 buttons right */
 .navbar {
     position: sticky;
     top: 0;
     background-color: #1a1a1a;
     padding: 0;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: stretch;
+    grid-template-columns: 1fr auto 1fr;   /* left | logo | right */
+    align-items: center;
+    justify-items: stretch;
     z-index: 100;
-    box-shadow: 
+    box-shadow:
         0 2px 8px rgba(0, 0, 0, 0.2),
         0 2px 4px rgba(155, 77, 202, 0.2),
         0 2px 12px rgba(155, 77, 202, 0.1);
@@ -23,25 +25,54 @@
     border-bottom: 2px solid rgba(155, 77, 202, 0.3);
 }
 
+/* Left and right button containers – now only 2 buttons each */
+.nav-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* exactly 2 equal columns */
+    height: 100%;
+}
+
+/* Keep buttons perfectly centered vertically and spaced evenly */
+.nav-links a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+}
+
+/* Subtle vertical divider lines between buttons */
+.nav-links a:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background-color: rgba(255, 253, 245, 0.3);
+}
+
+/* Hover effect */
+.nav-links a:hover {
+    color: #9b4dca;
+    background-color: rgba(155, 77, 202, 0.1);
+}
+
+/* Logo stays perfectly centered */
 .logo {
     height: 50px;
-    margin: 12px 2rem;
+    margin: 0 2rem;
     cursor: pointer;
 }
 
-.nav-links {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    align-items: stretch;
-    width: 100%;
-}
-
-.nav-links.left {
-    justify-content: start;
-}
-
+/* Remove old grid-template-columns: repeat(3, ...) – no longer needed */
+.nav-links.left,
 .nav-links.right {
-    justify-content: end;
+    justify-content: stretch;   /* makes the two columns fill the space */
 }
 
 .nav-links a, .dropdown > a {
@@ -399,6 +430,256 @@ color: #9b4dca;
 color: #888;
 font-size: 0.9rem;
 }
+
+/* Simple full-width page container – keeps everything consistent */
+.page-container {
+    min-height: calc(100vh - 180px);   /* leaves room for navbar + footer */
+    padding: 4rem 2rem;
+    background-color: #212121;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.page-container h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: #ffffff;
+}
+
+
+\/\*\*/ 
+/* QUOTA CLICKER APP – ENLARGED, MODERN STYLES */
+/* Main App Root Area */
+#root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b 70%, #0f172a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html, #root { height: 100%; background: #111; overflow: auto; }
+
+/* App Shell */
+.icf-shell,
+#root .icf-shell {
+  width: 100%;
+  max-width: 690px;
+  min-width: 340px;
+  background: rgba(30,41,59,0.92);
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.60);
+  display: flex;
+  flex-direction: column;
+  max-height: 1200px;
+  height: 95vh;
+}
+
+/* Header */
+.icf-header,
+#root .icf-header {
+  padding: 2rem 2rem 1.5rem;
+  background: rgba(30,41,59,0.85);
+  border-bottom: 2px solid rgba(59,130,246,0.35);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Ranks */
+.icf-rank,
+#root .icf-rank {
+  color: #fde68a;
+  font-weight: 800;
+  font-size: 1.3rem;
+  margin-top: .35rem;
+}
+
+/* Enlarged Button */
+.icf-btn,
+#root .icf-btn {
+  border: none;
+  border-radius: 1.2rem;
+  background: #2563eb;
+  color: #fff;
+  padding: 0.8rem 2.2rem;
+  font-weight: 700;
+  font-size: 1.38rem;
+  margin: 0.25rem;
+  cursor: pointer;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 2px 12px #2563eb3a;
+  transition: filter 0.08s, transform 0.083s;
+}
+
+.icf-btn:disabled,
+#root .icf-btn:disabled {
+  opacity: 0.48;
+  background: #1e293b;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+
+/* Stats/Box */
+.icf-mainstat, #root .icf-mainstat {
+  background: rgba(59,130,246,0.13);
+  border: 2.2px solid #60a5fa98;
+  border-radius: 1.2rem;
+  padding: 1.3rem 1rem .9rem 1rem;
+  text-align: center;
+  flex: 1;
+  margin: 0 0.60rem;
+  min-width: 0;
+  min-height: 126px;
+  box-shadow: 0 2px 9px #60a5fa1A;
+}
+
+/* Clicker Button */
+.icf-clicker-btn,
+#root .icf-clicker-btn {
+  width: 432px;
+  height: 432px;
+  border-radius: 100rem;
+  background: linear-gradient(120deg, #3b82f6 62%, #8b5cf6 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 2.8rem;
+  color: #fff;
+  margin: 2.8rem auto 2.4rem auto;
+  box-shadow: 0 4px 36px #2563eb80, 0 1.2px 7px #312e81a1;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  transition: transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+
+.icf-clicker-btn.icf-active,
+#root .icf-clicker-btn.icf-active {
+  transform: scale(0.962);
+  filter: brightness(1.14);
+}
+
+/* Tab Buttons */
+.icf-tab-btn,
+#root .icf-tab-btn {
+  background: #334155;
+  color: #dbeafe;
+  font-weight: 800;
+  font-size: 1.23rem;
+  border-radius: 1.13rem;
+  padding: 0.75rem 0.87rem;
+  margin: 0 7px;
+  flex: 1;
+  cursor: pointer;
+  border: none;
+  letter-spacing: 0.03em;
+  min-width: 80px;
+}
+
+.icf-tab-btn.icf-active,
+#root .icf-tab-btn.icf-active {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 1.5px 16px #2563eb77;
+}
+
+/* Upgrades Area */
+.icf-upgrades-area,
+#root .icf-upgrades-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin: 2.6rem 0;
+}
+
+/* Slide Menu Menu */
+.icf-menu-side,
+#root .icf-menu-side {
+  background: rgba(30,41,59,0.94);
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  box-sizing: border-box;
+  transition: transform 0.20s cubic-bezier(.7,0,1,1);
+  display: flex;
+  flex-direction: column;
+}
+
+.icf-menu-side.icf-hide,
+#root .icf-menu-side.icf-hide {
+  transform: translateX(115%);
+  pointer-events: none;
+}
+
+.icf-menu-side.icf-show,
+#root .icf-menu-side.icf-show {
+  transform: translateX(0);
+}
+
+/* Chips */
+.icf-chip,
+#root .icf-chip {
+  display: inline-block;
+  font-size: 1.23em;
+  margin-left: 0.20em;
+  padding: 0.16em .77em;
+  border-radius: 13px;
+  opacity: 0.67;
+  font-weight: 700;
+  background: #282a36;
+  color: #fff;
+}
+
+/* General utility for enlarged text etc. (modular, matches JS) */
+.icf-heading-gradient,
+#root .icf-heading-gradient {
+  font-weight: 900;
+  font-size: 2.58rem;
+  background: linear-gradient(90deg,#60a5fa 10%,#a78bfa 90%);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.05;
+}
+
+.icf-footer,
+#root .icf-footer {
+  text-align: center;
+  font-size: 1.29rem;
+  color: #96a9c6;
+  padding: 1.31rem 0;
+  background: rgba(30,41,59,0.91);
+  border-top: 2px solid rgba(59,130,246,0.25);
+  margin-top: auto;
+}
+
+/* SCROLLBAR - subtle for app area */
+#root ::-webkit-scrollbar {
+  width: 11px;
+  background: rgba(24,27,37,0.05);
+}
+#root ::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background: #233040;
+}
+#root ::-webkit-scrollbar-thumb:hover {
+  background: #3c5172;
+}
+
 
 /* Font Awesome for icons */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
